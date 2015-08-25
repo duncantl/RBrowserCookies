@@ -1,0 +1,12 @@
+Package: RBrowserCookies
+Version: 0.1-0
+Title: Get cookies from browsers
+Description: This allows an R user to query a browser's database of  cookies.
+  Currently this only supports Firefox, but we'll add support for Google Chrome soon.
+  (Send mail asking for this.)
+  One purpose of this package is to allow a user to login to a Web site in their browser,
+  collect the cookie from the browser, and then use this in R requests to that Web site.
+Author: Duncan Temple Lang
+Maintainer: Duncan Temple Lang <duncan@r-project.org>
+License: BSD
+Imports: RSQLite, RCurl

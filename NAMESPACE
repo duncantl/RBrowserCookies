@@ -1,0 +1,9 @@
+import(RCurl)
+import(RSQLite)
+
+export(getLoginHandle)
+export(getLoginCookie)
+
+export(getFirefoxCookiesFile)
+export(getLoginCookieFirefox)
+
