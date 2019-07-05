@@ -6,9 +6,11 @@ function(host, cookie = getLoginCookie(host), ..., curl = getCurlHandle())
 }
 
 getLoginCookie = getLoginCookieFirefox =
-function(host, cookiesDB = getFirefoxCookiesFile())
+function(host, cookiesDB = getFirefoxCookiesFile(), con = dbConnect(SQLite(), cookiesDB))
 {
-   con = dbConnect(SQLite(), cookiesDB)
+    if(missing(con))
+        on.exit(dbDisconnect(con))
+    
    ck = dbGetQuery(con, sprintf("SELECT * FROM moz_cookies WHERE baseDomain = '%s'", host))
    paste(ck$name, ck$value, sep = "=", collapse = ";")   
 }
