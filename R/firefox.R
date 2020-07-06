@@ -6,12 +6,12 @@ function(host, cookie = getLoginCookie(host), ..., curl = getCurlHandle())
 }
 
 getLoginCookie = getLoginCookieFirefox =
-function(host, cookiesDB = getFirefoxCookiesFile(), con = dbConnect(SQLite(), cookiesDB))
+function(host, cookiesDB = getFirefoxCookiesFile(), con = getCookiesDBCon(cookiesDB))
 {
     if(missing(con))
         on.exit(dbDisconnect(con))
     
-   ck = dbGetQuery(con, sprintf("SELECT * FROM moz_cookies WHERE baseDomain = '%s'", host))
+   ck = dbGetQuery(con, sprintf("SELECT * FROM moz_cookies WHERE host = '%s'", host))
    paste(ck$name, ck$value, sep = "=", collapse = ";")   
 }
 
@@ -33,3 +33,20 @@ function()
       ff
 }
 
+getCookiesDBCon =
+function(file, copyIfLocked = TRUE)
+{
+    drv = SQLite()
+
+    tryCatch(dbConnect(drv, file),
+             warning = function(e) {
+                 if(grepl("locked", e$message)) {
+                     tmp = tempfile()
+                     file.copy(file, tmp)
+                     con = dbConnect(drv, tmp)
+                     reg.finalizer(con@ptr, function(obj) file.remove(tmp) )
+                     con
+                 } else
+                     stop(e)
+             })
+}
