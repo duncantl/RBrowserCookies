@@ -1,5 +1,5 @@
 Package: RBrowserCookies
-Version: 0.1-0
+Version: 0.2-0
 Title: Get cookies from browsers
 Description: This allows an R user to query a browser's database of  cookies.
   Currently this only supports Firefox, but we'll add support for Google Chrome soon.
