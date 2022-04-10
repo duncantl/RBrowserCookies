@@ -1,5 +1,8 @@
+useDynLib(RBrowserCookies)
+
 import(RCurl)
 import(RSQLite)
+importFrom(base64enc, base64decode)
 
 export(getLoginHandle)
 export(getLoginCookie)
@@ -7,3 +10,9 @@ export(getLoginCookie)
 export(getFirefoxCookiesFile)
 export(getLoginCookieFirefox)
 
+export(readPasswords)
+# export(getPasswords)
+
+
+S3method(print, FirefoxPasswords)
+S3method(print, Passwords)
