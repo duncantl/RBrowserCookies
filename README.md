@@ -1,3 +1,4 @@
+# RBrowserCookies
 
 This package allows you to retrieve cookies from a Web browser's store on your local machine.
 You can get this for a particular site (host) and then add this to a curl handle in the RCurl
