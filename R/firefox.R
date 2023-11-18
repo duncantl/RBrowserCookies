@@ -28,7 +28,7 @@ function()
    if(length(ff) == 0)
        stop("cannot determine Firefox profile")
    if(length(ff) > 1)
-      ff = ff[ which.max(file.info(ff)$mtime) ]
+      ff[ which.max(file.info(ff)$mtime) ]
    else
       ff
 }
@@ -38,8 +38,8 @@ function(file, copyIfLocked = TRUE)
 {
     drv = SQLite()
 
-    tryCatch(dbConnect(drv, file),
-             warning = function(e) {
+    tryCatch({ con = dbConnect(drv, file); dbListTables(con); con},
+             error = function(e) {
                  if(grepl("locked", e$message)) {
                      tmp = tempfile()
                      file.copy(file, tmp)
@@ -49,4 +49,16 @@ function(file, copyIfLocked = TRUE)
                  } else
                      stop(e)
              })
+}
+
+
+mkCookie =
+function(name, value)    
+{
+    if(is.data.frame(name) && missing(value)) {
+        value = name$value
+        name = name$name
+    }
+
+    paste(name, value, sep = "=", collapse = "; ")
 }
